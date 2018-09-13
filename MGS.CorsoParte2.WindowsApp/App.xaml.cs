@@ -31,7 +31,7 @@ namespace MGS.CorsoParte2.WindowsApp
             if (type != null)
             {
                 var wnd = Activator.CreateInstance(type) as Window;
-                wnd.ShowDialog();
+                wnd.Show();
             }
         }
 

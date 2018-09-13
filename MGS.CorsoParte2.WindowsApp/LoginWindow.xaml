@@ -16,6 +16,13 @@
 
     <Window.Resources>
         <vm:LoginViewModel x:Key="viewmodel" />
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Background" Value="LightPink" />
+        </Style>
     </Window.Resources>
 
     <Grid DataContext="{StaticResource viewmodel}">
