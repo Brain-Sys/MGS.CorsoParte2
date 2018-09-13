@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using MGS.CorsoParte2.ViewModels.Messages;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,21 +18,34 @@ namespace MGS.CorsoParte2.WindowsApp
     {
         public App()
         {
-            Messenger.Default.Register<string>(this, openNewView);
+            Messenger.Default.Register<OpenNewViewMessage>(this, openNewView);
         }
 
-        private void openNewView(string viewName)
+        private void openNewView(OpenNewViewMessage msg)
         {
             var ns = Assembly.GetExecutingAssembly()
                 .GetModules().First().Name;
             ns = ns.Replace(".exe", string.Empty);
-            string typeName = string.Concat(ns, ".", viewName, "Window");
+            string typeName = string.Concat(ns, ".", msg.ViewName, "Window");
             Type type = Type.GetType(typeName);
 
             if (type != null)
             {
                 var wnd = Activator.CreateInstance(type) as Window;
-                wnd.Show();
+
+                if (msg.Maximized)
+                {
+                    wnd.WindowState = WindowState.Maximized;
+                }
+
+                if (msg.Modal)
+                {
+                    wnd.ShowDialog();
+                }
+                else
+                {
+                    wnd.Show();
+                }
             }
         }
 

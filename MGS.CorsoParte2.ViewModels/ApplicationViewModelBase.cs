@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace MGS.CorsoParte2.ViewModels
 {
-    public class ApplicationViewModelBase : ViewModelBase
+    public abstract class ApplicationViewModelBase : ViewModelBase
     {
+        protected Random Random = new Random((int)DateTime.Now.Ticks);
+
         private string message;
         public string Message
         {
@@ -37,5 +39,12 @@ namespace MGS.CorsoParte2.ViewModels
                 return !this.IsBusy;
             }
         }
+
+        public virtual void Init()
+        {
+
+        }
+
+        public abstract void Init2();
     }
 }

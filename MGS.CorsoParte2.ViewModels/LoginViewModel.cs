@@ -1,9 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
+using MGS.CorsoParte2.ViewModels.Messages;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +18,9 @@ namespace MGS.CorsoParte2.ViewModels
         public string Username
         {
             get { return username; }
-            set { username = value;
+            set
+            {
+                username = value;
                 base.RaisePropertyChanged();
             }
         }
@@ -25,7 +29,9 @@ namespace MGS.CorsoParte2.ViewModels
         public string Password
         {
             get { return password; }
-            set { password = value;
+            set
+            {
+                password = value;
                 base.RaisePropertyChanged();
             }
         }
@@ -34,7 +40,9 @@ namespace MGS.CorsoParte2.ViewModels
         public bool Remember
         {
             get { return remember; }
-            set { remember = value;
+            set
+            {
+                remember = value;
                 base.RaisePropertyChanged();
             }
         }
@@ -44,6 +52,7 @@ namespace MGS.CorsoParte2.ViewModels
 
         public LoginViewModel()
         {
+            this.Remember = true;
             this.Username = "emmegisoft";
             this.Password = "carpi";
 
@@ -83,10 +92,26 @@ namespace MGS.CorsoParte2.ViewModels
             }
             else
             {
-                Messenger.Default.Send<string>("MainMenu");
+                // Login riuscito
+                if (this.Remember)
+                {
+                    string content = $"{this.Username}  {this.Password}";
+                    File.WriteAllText("E:\\Credentials.txt", content);
+                }
+
+                OpenNewViewMessage msg = new OpenNewViewMessage();
+                msg.ViewName = "MainMenu";
+                msg.Modal = true;
+                msg.Maximized = true;
+                Messenger.Default.Send<OpenNewViewMessage>(msg);
             }
 
             this.IsBusy = false;
+        }
+
+        public override void Init2()
+        {
+            
         }
     }
 }

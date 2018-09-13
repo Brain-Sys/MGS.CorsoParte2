@@ -3,10 +3,48 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MGS.CorsoParte2.ViewModels;assembly=MGS.CorsoParte2.ViewModels"
         xmlns:local="clr-namespace:MGS.CorsoParte2.WindowsApp"
         mc:Ignorable="d"
         Title="MainMenuWindow" Height="450" Width="800">
-    <Grid>
+
+    <Window.Resources>
+        <vm:MainMenuViewModel x:Key="viewmodel" />
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Key="A" Modifiers="Alt"
+                    Command="{Binding Source={StaticResource viewmodel},Path=AddDoorCommand}" />
+    </Window.InputBindings>
+    
+    <Grid DataContext="{StaticResource viewmodel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ListBox Grid.Row="1" Background="LightGreen"
+                 Margin="8" ItemsSource="{Binding Doors}"
+                 HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Model}" Grid.Column="0"
+                                 ToolTip="{Binding Price,StringFormat=c}" />
+                        <TextBox Text="{Binding Price}" Grid.Column="1" Margin="64,0,64,0" />
+                        <Slider Grid.Column="2" Margin="16,0,0,0"
+                                Minimum="0" Maximum="10000"
+                                Value="{Binding Price}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         
     </Grid>
 </Window>

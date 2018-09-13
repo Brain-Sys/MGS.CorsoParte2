@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MGS.CorsoParte2.WindowsApp"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MGS.CorsoParte2.ViewModels", "MGS.CorsoParte2.ViewModels\MGS.CorsoParte2.ViewModels.csproj", "{0C2D841B-CCDB-4865-BB5F-4B9C3EAAC88C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MGS.CorsoParte2.DomainModel", "MGS.CorsoParte2.DomainModel\MGS.CorsoParte2.DomainModel.csproj", "{14767DBB-3B05-451F-B046-FABFD9C23526}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0C2D841B-CCDB-4865-BB5F-4B9C3EAAC88C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C2D841B-CCDB-4865-BB5F-4B9C3EAAC88C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C2D841B-CCDB-4865-BB5F-4B9C3EAAC88C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14767DBB-3B05-451F-B046-FABFD9C23526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14767DBB-3B05-451F-B046-FABFD9C23526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14767DBB-3B05-451F-B046-FABFD9C23526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14767DBB-3B05-451F-B046-FABFD9C23526}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

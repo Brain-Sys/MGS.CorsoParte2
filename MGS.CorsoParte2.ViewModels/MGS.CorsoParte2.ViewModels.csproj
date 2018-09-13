@@ -58,10 +58,18 @@
   <ItemGroup>
     <Compile Include="ApplicationViewModelBase.cs" />
     <Compile Include="LoginViewModel.cs" />
+    <Compile Include="MainMenuViewModel.cs" />
+    <Compile Include="Messages\OpenNewViewMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MGS.CorsoParte2.DomainModel\MGS.CorsoParte2.DomainModel.csproj">
+      <Project>{14767DBB-3B05-451F-B046-FABFD9C23526}</Project>
+      <Name>MGS.CorsoParte2.DomainModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
