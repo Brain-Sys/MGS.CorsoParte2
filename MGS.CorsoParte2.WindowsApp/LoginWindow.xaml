@@ -25,13 +25,32 @@
         </Style>
     </Window.Resources>
 
-    <Grid DataContext="{StaticResource viewmodel}">
+    <Window.InputBindings>
+        <KeyBinding Key="Return"
+                    Command="{Binding LoginCommand,Source={StaticResource viewmodel}}" />
+    </Window.InputBindings>
+
+    <Grid DataContext="{StaticResource viewmodel}"
+          FocusManager.FocusedElement="{Binding ElementName=FirstFocus}">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="NOME-UTENTE" />
-            <TextBox Text="{Binding Username,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Text="{Binding Username,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                     IsEnabled="{Binding IsNotBusy}" Name="FirstFocus">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F1" Command="{Binding ShowHelpCommand}"
+                                CommandParameter="help per username" />
+                </TextBox.InputBindings>
+            </TextBox>
             <TextBlock Text="PASSWORD" />
-            <TextBox Text="{Binding Password,UpdateSourceTrigger=PropertyChanged}" />
-            <Button Content="Login" Command="{Binding LoginCommand}" />
+            <TextBox Text="{Binding Password,UpdateSourceTrigger=PropertyChanged}"
+                     IsEnabled="{Binding IsNotBusy}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="F1" Command="{Binding ShowHelpCommand}"
+                                CommandParameter="help per la password" />
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Content="Login" Command="{Binding LoginCommand}"
+                    Style="{StaticResource BottoneFigo}" Cursor="Hand" />
         </StackPanel>
         <TextBlock Text="{Binding Message}" FontSize="20" VerticalAlignment="Bottom"
                    Margin="16" Foreground="Red" Name="Message">
@@ -48,5 +67,11 @@
                 </EventTrigger>
             </TextBlock.Triggers>-->
         </TextBlock>
+
+        <!--<TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                   Text="{Binding IsBusy}" Margin="16" />-->
+        <ProgressBar VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="16"
+                     IsIndeterminate="{Binding IsBusy}" Width="50" Height="12" />
+
     </Grid>
 </Window>

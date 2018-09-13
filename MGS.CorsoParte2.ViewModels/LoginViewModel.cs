@@ -3,13 +3,14 @@ using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MGS.CorsoParte2.ViewModels
 {
-    public class LoginViewModel : ViewModelBase
+    public class LoginViewModel : ApplicationViewModelBase
     {
         private string username;
         public string Username
@@ -38,38 +39,43 @@ namespace MGS.CorsoParte2.ViewModels
             }
         }
 
-        private string message;
-        public string Message
-        {
-            get { return message; }
-            set { message = value;
-                base.RaisePropertyChanged();
-            }
-        }
-
         public RelayCommand LoginCommand { get; set; }
+        public RelayCommand<string> ShowHelpCommand { get; set; }
 
         public LoginViewModel()
         {
-            // this.Message = "g ndf,mgndfkjgndkjgnsdkjngkfdngkjdfngkjdngfkjndfgkj";
             this.Username = "emmegisoft";
             this.Password = "carpi";
 
             this.LoginCommand = new RelayCommand
                 (loginCommandExecute, loginCommandCanExecute);
+            this.ShowHelpCommand = new RelayCommand<string>
+                (showHelpCommandExecute);
+        }
+
+        private void showHelpCommandExecute(string parameter)
+        {
+            Process.Start("http://www.google.com?q=" + parameter);
         }
 
         private bool loginCommandCanExecute()
         {
             if (string.IsNullOrEmpty(this.Username) ||
-               string.IsNullOrEmpty(this.Password))
+               string.IsNullOrEmpty(this.Password) ||
+               this.IsBusy)
                 return false;
 
             return true;
         }
 
-        private void loginCommandExecute()
+        private async void loginCommandExecute()
         {
+            this.IsBusy = true;
+
+#if DEBUG
+            await Task.Delay(2000);
+#endif
+
             if (this.Username != "emmegisoft" && this.Password != "carpi")
             {
                 // Login fallito
@@ -79,6 +85,8 @@ namespace MGS.CorsoParte2.ViewModels
             {
                 Messenger.Default.Send<string>("MainMenu");
             }
+
+            this.IsBusy = false;
         }
     }
 }
