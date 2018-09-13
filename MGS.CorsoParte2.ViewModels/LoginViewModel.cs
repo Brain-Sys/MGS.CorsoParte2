@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,7 +77,7 @@ namespace MGS.CorsoParte2.ViewModels
             }
             else
             {
-                
+                Messenger.Default.Send<string>("MainMenu");
             }
         }
     }
