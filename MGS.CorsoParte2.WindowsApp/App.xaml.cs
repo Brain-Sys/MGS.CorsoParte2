@@ -19,6 +19,35 @@ namespace MGS.CorsoParte2.WindowsApp
         public App()
         {
             Messenger.Default.Register<OpenNewViewMessage>(this, openNewView);
+            Messenger.Default.Register<ShowMessageBox>(this, showMsg);
+            Messenger.Default.Register<ShowQuestionBox>(this, showQuestion);
+        }
+
+        private void showQuestion(ShowQuestionBox msg)
+        {
+            MessageBoxResult result = MessageBox.Show(msg.Message, msg.Title,
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            switch (result)
+            {
+                case MessageBoxResult.Cancel:
+                    msg.Cancel?.Invoke();
+                    break;
+                case MessageBoxResult.Yes:
+                    msg.Yes?.Invoke();
+                    break;
+                case MessageBoxResult.No:
+                    msg.No?.Invoke();
+                    break;
+            }
+        }
+
+        private void showMsg(ShowMessageBox msg)
+        {
+            MessageBoxImage icon = MessageBoxImage.Error;
+
+            MessageBox.Show(msg.Message, msg.Title,
+                MessageBoxButton.OK, icon);
         }
 
         private void openNewView(OpenNewViewMessage msg)

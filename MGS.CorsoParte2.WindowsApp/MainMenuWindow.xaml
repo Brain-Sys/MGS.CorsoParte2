@@ -24,7 +24,21 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListBox Grid.Row="1" Background="LightGreen"
+        <StackPanel Orientation="Horizontal" Margin="8">
+            <Button Command="{Binding AddDoorCommand}"
+                    FontSize="20" Padding="24,4">
+                <TextBlock Text="&#xe109;" FontFamily="Segoe UI Symbol"
+                           FontSize="24" />
+            </Button>
+            <Button Command="{Binding DeleteDoorCommand}"
+                    FontSize="20" Padding="24,4">
+                <TextBlock Text="&#xe107;" FontFamily="Segoe UI Symbol"
+                           FontSize="24" />
+            </Button>
+        </StackPanel>
+
+        <ListBox Grid.Row="1" Background="LightGreen" Name="lstDoors"
+                 SelectedItem="{Binding SelectedDoor}"
                  Margin="8" ItemsSource="{Binding Doors}"
                  HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
@@ -45,6 +59,30 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
+        <!--<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,0,8,8">
+            <TextBlock
+                Text="{Binding ElementName=lstDoors,Path=SelectedItem.Width}"
+                FontStyle="Italic" FontSize="18" />
+            <TextBlock Text="cm X " VerticalAlignment="Bottom" />
+            <TextBlock
+                Text="{Binding ElementName=lstDoors,Path=SelectedItem.Height}"
+                FontStyle="Italic" FontSize="18" />
+            <TextBlock Text="cm" VerticalAlignment="Bottom" />
+        </StackPanel>-->
+
+        <!--<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,0,8,8">
+            <TextBlock
+                FontStyle="Italic" FontSize="18">
+                <Run Text="{Binding Path=SelectedDoor.Width}" />
+                <Run Text="cm X" FontSize="12" />
+                <Run Text="{Binding SelectedDoor.Height}" />
+                <Run Text="cm" FontSize="12" />
+            </TextBlock>
+        </StackPanel>-->
+
+        <TextBlock Grid.Row="2" Text="{Binding SelectedDoorDetails}"
+                   Margin="8,0,8,8" FontSize="18" />
+
     </Grid>
 </Window>

@@ -60,6 +60,8 @@
     <Compile Include="LoginViewModel.cs" />
     <Compile Include="MainMenuViewModel.cs" />
     <Compile Include="Messages\OpenNewViewMessage.cs" />
+    <Compile Include="Messages\ShowMessageBox.cs" />
+    <Compile Include="Messages\ShowQuestionBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
