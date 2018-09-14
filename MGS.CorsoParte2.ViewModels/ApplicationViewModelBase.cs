@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MGS.CorsoParte2.ViewModels
 {
     public abstract class ApplicationViewModelBase : ViewModelBase
     {
+        protected CancellationTokenSource cts = new CancellationTokenSource();
+
         protected Random Random = new Random((int)DateTime.Now.Ticks);
 
         private string message;

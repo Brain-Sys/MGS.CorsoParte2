@@ -21,7 +21,9 @@ namespace MGS.CorsoParte2.ViewModels
         public Door SelectedDoor
         {
             get { return selectedDoor; }
-            set { selectedDoor = value;
+            set
+            {
+                selectedDoor = value;
                 base.RaisePropertyChanged();
                 base.RaisePropertyChanged(nameof(SelectedDoorDetails));
             }
@@ -46,7 +48,9 @@ namespace MGS.CorsoParte2.ViewModels
         public string CurrentExporting
         {
             get { return currentExporting; }
-            set { currentExporting = value;
+            set
+            {
+                currentExporting = value;
                 base.RaisePropertyChanged();
             }
         }
@@ -55,6 +59,7 @@ namespace MGS.CorsoParte2.ViewModels
         public RelayCommand DeleteDoorCommand { get; set; }
         public RelayCommand<Door> AttachPhotoCommand { get; set; }
         public RelayCommand ExportAllCommand { get; set; }
+        public RelayCommand CancelExportAllCommand { get; set; }
 
         public MainMenuViewModel()
         {
@@ -64,27 +69,41 @@ namespace MGS.CorsoParte2.ViewModels
             this.DeleteDoorCommand = new RelayCommand(deleteDoorCommandExecute);
             this.AttachPhotoCommand = new RelayCommand<Door>(attachPhotoCommandExecute);
             this.ExportAllCommand = new RelayCommand(exportAllCommandExecute);
+            this.CancelExportAllCommand = new RelayCommand(cancelExportAllCommandExecute);
+        }
+
+        private void cancelExportAllCommandExecute()
+        {
+            if (!cts.IsCancellationRequested)
+            {
+                cts.Cancel();
+            }
         }
 
         private async void exportAllCommandExecute()
         {
             this.IsBusy = true;
 
-            await Task.Run(async () => {
-
+            await Task.Run(async () =>
+            {
                 var clone = new List<Door>(this.Doors);
 
                 foreach (var d in clone)
                 {
                     this.CurrentExporting = d.Model;
 #if DEBUG
-                    await Task.Delay(10);
+                    await Task.Delay(200);
 #endif
 
                     string filename = $"E:\\Export\\{d.Model}.dat";
                     File.WriteAllText(filename, $"{d.Price}");
+
+                    if (cts.Token.IsCancellationRequested)
+                    {
+                        break;
+                    }
                 }
-            });
+            }, cts.Token);
 
             this.CurrentExporting = string.Empty;
             this.IsBusy = false;
@@ -93,7 +112,8 @@ namespace MGS.CorsoParte2.ViewModels
         private void attachPhotoCommandExecute(Door parameter)
         {
             var msg = new BrowseFileMessage();
-            msg.BrowseCompleted = (string filename) => {
+            msg.BrowseCompleted = (string filename) =>
+            {
                 parameter.Photo = filename;
             };
             Messenger.Default.Send<BrowseFileMessage>(msg);
@@ -103,7 +123,8 @@ namespace MGS.CorsoParte2.ViewModels
         {
             ShowQuestionBox msg = new ShowQuestionBox("Conferma!",
                 "Sei sicuro di voler cancellare?");
-            msg.Yes = () => {
+            msg.Yes = () =>
+            {
                 if (this.Doors.Contains(this.SelectedDoor))
                 {
                     this.Doors.Remove(this.SelectedDoor);
@@ -136,7 +157,8 @@ namespace MGS.CorsoParte2.ViewModels
             this.IsBusy = true;
             var list = new List<Door>();
 
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 for (int i = 0; i < 1000; i++)
                 {
                     Door d = new Door();
@@ -158,7 +180,7 @@ namespace MGS.CorsoParte2.ViewModels
 
         public override void Init2()
         {
-            
+
         }
     }
 }

@@ -70,6 +70,8 @@
                        Foreground="WhiteSmoke" Margin="40,0" />
                 <TextBlock Text="{Binding CurrentExporting}" TextAlignment="Center"
                        Foreground="WhiteSmoke" Margin="40,0" />
+                <Button Content="annulla" Command="{Binding CancelExportAllCommand}"
+                        Margin="32,0,32,2" />
             </StackPanel>
         </Border>
 
