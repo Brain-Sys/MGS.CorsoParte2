@@ -55,52 +55,90 @@
         <KeyBinding Key="A" Modifiers="Alt"
                     Command="{Binding Source={StaticResource viewmodel},Path=AddDoorCommand}" />
     </Window.InputBindings>
-    
-    <Grid DataContext="{StaticResource viewmodel}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
 
-        <Border Background="Red" HorizontalAlignment="Right" Margin="12"
+    <TabControl DataContext="{StaticResource viewmodel}">
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="ListBox" />
+                    <TextBlock FontFamily="Segoe UI Symbol" Text="&#xe121;"
+                               Margin="8,0,0,0"
+                               Visibility="{Binding IsBusy,Converter={StaticResource blnToVisCnv}}"
+                               RenderTransformOrigin="0.5 0.5">
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform x:Name="Anim" Angle="0" />
+                                <ScaleTransform x:Name="Anim2" ScaleX="1.0" ScaleY="1.0" />
+                            </TransformGroup>
+                        </TextBlock.RenderTransform>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Anim"
+                                                                 Storyboard.TargetProperty="Angle"
+                                                                 From="0.0" To="359.0" Duration="00:00:01"
+                                                                 RepeatBehavior="Forever" />
+                                        <DoubleAnimation Storyboard.TargetName="Anim2"
+                                                                 Storyboard.TargetProperty="ScaleX"
+                                                                 From="1.0" To="2.0" Duration="00:00:00.4"
+                                                                 RepeatBehavior="Forever" />
+                                        <DoubleAnimation Storyboard.TargetName="Anim2"
+                                                                 Storyboard.TargetProperty="ScaleY"
+                                                                 From="1.0" To="2.0" Duration="00:00:00.4"
+                                                                 RepeatBehavior="Forever" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                </StackPanel>
+            </TabItem.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Border Background="Red" HorizontalAlignment="Right" Margin="12"
                 Visibility="{Binding IsBusy,Converter={StaticResource blnToVisCnv}}">
-            <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="sto esportando" TextAlignment="Center"
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="sto esportando" TextAlignment="Center"
                        Foreground="WhiteSmoke" Margin="40,0" />
-                <TextBlock Text="{Binding CurrentExporting}" TextAlignment="Center"
+                        <TextBlock Text="{Binding CurrentExporting}" TextAlignment="Center"
                        Foreground="WhiteSmoke" Margin="40,0" />
-                <Button Content="annulla" Command="{Binding CancelExportAllCommand}"
+                        <Button Content="annulla" Command="{Binding CancelExportAllCommand}"
                         Margin="32,0,32,2" />
-            </StackPanel>
-        </Border>
+                    </StackPanel>
+                </Border>
 
-        <StackPanel Orientation="Horizontal" Margin="8">
-            <Button Command="{Binding AddDoorCommand}"
+                <StackPanel Orientation="Horizontal" Margin="8">
+                    <Button Command="{Binding AddDoorCommand}"
                     FontSize="20" Padding="24,4">
-                <TextBlock Text="&#xe109;" FontFamily="Segoe UI Symbol"
+                        <TextBlock Text="&#xe109;" FontFamily="Segoe UI Symbol"
                            FontSize="24" />
-            </Button>
-            <Button Command="{Binding DeleteDoorCommand}"
+                    </Button>
+                    <Button Command="{Binding DeleteDoorCommand}"
                     FontSize="20" Padding="24,4">
-                <TextBlock Text="&#xe107;" FontFamily="Segoe UI Symbol"
+                        <TextBlock Text="&#xe107;" FontFamily="Segoe UI Symbol"
                            FontSize="24" />
-            </Button>
-            <Button Command="{Binding ExportAllCommand}"
+                    </Button>
+                    <Button Command="{Binding ExportAllCommand}"
                     FontSize="20" Padding="24,4">
-                <TextBlock Text="&#xe120;" FontFamily="Segoe UI Symbol"
+                        <TextBlock Text="&#xe120;" FontFamily="Segoe UI Symbol"
                            FontSize="24" />
-            </Button>
-        </StackPanel>
+                    </Button>
+                </StackPanel>
 
-        <ListBox Grid.Row="1" Name="lstDoors"
+                <ListBox Grid.Row="1" Name="lstDoors"
                  SelectedItem="{Binding SelectedDoor}"
                  Margin="8" ItemsSource="{Binding Doors}"
                  HorizontalContentAlignment="Stretch"
                  ItemTemplate="{StaticResource DoorTemplate2}">
-        </ListBox>
+                </ListBox>
 
-        <!--<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,0,8,8">
+                <!--<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,0,8,8">
             <TextBlock
                 Text="{Binding ElementName=lstDoors,Path=SelectedItem.Width}"
                 FontStyle="Italic" FontSize="18" />
@@ -111,7 +149,7 @@
             <TextBlock Text="cm" VerticalAlignment="Bottom" />
         </StackPanel>-->
 
-        <!--<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,0,8,8">
+                <!--<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,0,8,8">
             <TextBlock
                 FontStyle="Italic" FontSize="18">
                 <Run Text="{Binding Path=SelectedDoor.Width}" />
@@ -121,8 +159,37 @@
             </TextBlock>
         </StackPanel>-->
 
-        <TextBlock Grid.Row="2" Text="{Binding SelectedDoorDetails}"
+                <TextBlock Grid.Row="2" Text="{Binding SelectedDoorDetails}"
                    Margin="8,0,8,8" FontSize="18" />
 
-    </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="DataGrid">
+            <DataGrid ItemsSource="{Binding Doors}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Model}" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <Grid Width="64" Height="64">
+                                    <Button Content="..."
+                                            Command="{Binding AttachPhotoCommand,Source={StaticResource viewmodel}}"
+                                            CommandParameter="{Binding}" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid Width="64" Height="64">
+                                    <Image Source="{Binding Photo}" />
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </TabItem>
+    </TabControl>
+
+
 </Window>

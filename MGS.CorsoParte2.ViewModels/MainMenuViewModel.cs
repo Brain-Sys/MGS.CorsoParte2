@@ -92,11 +92,11 @@ namespace MGS.CorsoParte2.ViewModels
                 {
                     this.CurrentExporting = d.Model;
 #if DEBUG
-                    await Task.Delay(200);
+                    await Task.Delay(10);
 #endif
 
                     string filename = $"E:\\Export\\{d.Model}.dat";
-                    File.WriteAllText(filename, $"{d.Price}");
+                    // File.WriteAllText(filename, $"{d.Price}");
 
                     if (cts.Token.IsCancellationRequested)
                     {
