@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,9 +42,19 @@ namespace MGS.CorsoParte2.ViewModels
             }
         }
 
+        private string currentExporting;
+        public string CurrentExporting
+        {
+            get { return currentExporting; }
+            set { currentExporting = value;
+                base.RaisePropertyChanged();
+            }
+        }
+
         public RelayCommand AddDoorCommand { get; set; }
         public RelayCommand DeleteDoorCommand { get; set; }
         public RelayCommand<Door> AttachPhotoCommand { get; set; }
+        public RelayCommand ExportAllCommand { get; set; }
 
         public MainMenuViewModel()
         {
@@ -52,6 +63,31 @@ namespace MGS.CorsoParte2.ViewModels
             this.AddDoorCommand = new RelayCommand(addDoorCommandExecute);
             this.DeleteDoorCommand = new RelayCommand(deleteDoorCommandExecute);
             this.AttachPhotoCommand = new RelayCommand<Door>(attachPhotoCommandExecute);
+            this.ExportAllCommand = new RelayCommand(exportAllCommandExecute);
+        }
+
+        private async void exportAllCommandExecute()
+        {
+            this.IsBusy = true;
+
+            await Task.Run(async () => {
+
+                var clone = new List<Door>(this.Doors);
+
+                foreach (var d in clone)
+                {
+                    this.CurrentExporting = d.Model;
+#if DEBUG
+                    await Task.Delay(10);
+#endif
+
+                    string filename = $"E:\\Export\\{d.Model}.dat";
+                    File.WriteAllText(filename, $"{d.Price}");
+                }
+            });
+
+            this.CurrentExporting = string.Empty;
+            this.IsBusy = false;
         }
 
         private void attachPhotoCommandExecute(Door parameter)

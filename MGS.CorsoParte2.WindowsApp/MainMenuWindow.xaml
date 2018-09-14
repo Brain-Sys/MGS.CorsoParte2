@@ -10,6 +10,45 @@
 
     <Window.Resources>
         <vm:MainMenuViewModel x:Key="viewmodel" />
+        <DataTemplate x:Key="DoorTemplate1">
+            <Expander Header="{Binding Model}">
+                <StackPanel>
+                    <Button Content="..."
+                                    Command="{Binding AttachPhotoCommand,Source={StaticResource viewmodel}}"
+                                    CommandParameter="{Binding}" />
+                    <Image Source="{Binding Photo}" />
+                </StackPanel>
+            </Expander>
+        </DataTemplate>
+        <DataTemplate x:Key="DoorTemplate2">
+            <Grid Background="{Binding Price,Converter={StaticResource priceToBrushCnv}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding Model}" Grid.Column="0"
+                         Background="{x:Null}"
+                         SelectionBrush="{StaticResource AdvSelection}"
+                                 ToolTip="{Binding Price,StringFormat=c}" />
+                <TextBox Text="{Binding Price}" Grid.Column="1" Margin="64,0,64,0"
+                         Background="{x:Null}" />
+                <Slider Grid.Column="2" Margin="16,0,0,0"
+                                Minimum="0" Maximum="10000"
+                                Value="{Binding Price}" />
+                <StackPanel Orientation="Horizontal" Grid.Column="3">
+                    <Button Padding="8,2" Content="..."
+                            Background="{StaticResource CompanyMainColor}"
+                                    Command="{Binding AttachPhotoCommand,Source={StaticResource viewmodel}}"
+                                    CommandParameter="{Binding}">
+                        <Button.ToolTip>
+                            <Image Source="{Binding Photo}" Width="300" />
+                        </Button.ToolTip>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
 
     <Window.InputBindings>
@@ -24,6 +63,16 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <Border Background="Red" HorizontalAlignment="Right" Margin="12"
+                Visibility="{Binding IsBusy,Converter={StaticResource blnToVisCnv}}">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="sto esportando" TextAlignment="Center"
+                       Foreground="WhiteSmoke" Margin="40,0" />
+                <TextBlock Text="{Binding CurrentExporting}" TextAlignment="Center"
+                       Foreground="WhiteSmoke" Margin="40,0" />
+            </StackPanel>
+        </Border>
+
         <StackPanel Orientation="Horizontal" Margin="8">
             <Button Command="{Binding AddDoorCommand}"
                     FontSize="20" Padding="24,4">
@@ -35,47 +84,18 @@
                 <TextBlock Text="&#xe107;" FontFamily="Segoe UI Symbol"
                            FontSize="24" />
             </Button>
+            <Button Command="{Binding ExportAllCommand}"
+                    FontSize="20" Padding="24,4">
+                <TextBlock Text="&#xe120;" FontFamily="Segoe UI Symbol"
+                           FontSize="24" />
+            </Button>
         </StackPanel>
 
-        <ListBox Grid.Row="1" Background="LightGreen" Name="lstDoors"
+        <ListBox Grid.Row="1" Name="lstDoors"
                  SelectedItem="{Binding SelectedDoor}"
                  Margin="8" ItemsSource="{Binding Doors}"
-                 HorizontalContentAlignment="Stretch">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Expander Header="{Binding Model}">
-                        <StackPanel>
-                            <Button Content="..."
-                                    Command="{Binding AttachPhotoCommand,Source={StaticResource viewmodel}}"
-                                    CommandParameter="{Binding}" />
-                            <Image Source="{Binding Photo}" />
-                        </StackPanel>
-                    </Expander>
-                    <!--<Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Model}" Grid.Column="0"
-                                 ToolTip="{Binding Price,StringFormat=c}" />
-                        <TextBox Text="{Binding Price}" Grid.Column="1" Margin="64,0,64,0" />
-                        <Slider Grid.Column="2" Margin="16,0,0,0"
-                                Minimum="0" Maximum="10000"
-                                Value="{Binding Price}" />
-                        <StackPanel Orientation="Horizontal" Grid.Column="3">
-                            <Button Padding="8,2" Content="..."
-                                    Command="{Binding AttachPhotoCommand,Source={StaticResource viewmodel}}"
-                                    CommandParameter="{Binding}">
-                                <Button.ToolTip>
-                                    <Image Source="{Binding Photo}" Width="300" />
-                                </Button.ToolTip>
-                            </Button>
-                        </StackPanel>
-                    </Grid>-->
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+                 HorizontalContentAlignment="Stretch"
+                 ItemTemplate="{StaticResource DoorTemplate2}">
         </ListBox>
 
         <!--<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,0,8,8">
