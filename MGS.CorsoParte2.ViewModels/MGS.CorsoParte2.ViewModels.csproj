@@ -59,6 +59,7 @@
     <Compile Include="ApplicationViewModelBase.cs" />
     <Compile Include="LoginViewModel.cs" />
     <Compile Include="MainMenuViewModel.cs" />
+    <Compile Include="Messages\BrowseFileMessage.cs" />
     <Compile Include="Messages\OpenNewViewMessage.cs" />
     <Compile Include="Messages\ShowMessageBox.cs" />
     <Compile Include="Messages\ShowQuestionBox.cs" />

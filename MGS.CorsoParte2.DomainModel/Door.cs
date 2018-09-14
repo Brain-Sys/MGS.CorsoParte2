@@ -46,6 +46,15 @@ namespace MGS.CorsoParte2.DomainModel
             }
         }
 
+        private string photo;
+        public string Photo
+        {
+            get { return photo; }
+            set { photo = value;
+                base.RaisePropertyChanged(nameof(Photo));
+            }
+        }
+
         public override string ToString()
         {
             return this.Model;

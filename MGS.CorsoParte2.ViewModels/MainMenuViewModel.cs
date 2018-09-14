@@ -5,6 +5,7 @@ using MGS.CorsoParte2.ViewModels.Messages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,7 @@ namespace MGS.CorsoParte2.ViewModels
 
         public RelayCommand AddDoorCommand { get; set; }
         public RelayCommand DeleteDoorCommand { get; set; }
+        public RelayCommand<Door> AttachPhotoCommand { get; set; }
 
         public MainMenuViewModel()
         {
@@ -49,6 +51,16 @@ namespace MGS.CorsoParte2.ViewModels
 
             this.AddDoorCommand = new RelayCommand(addDoorCommandExecute);
             this.DeleteDoorCommand = new RelayCommand(deleteDoorCommandExecute);
+            this.AttachPhotoCommand = new RelayCommand<Door>(attachPhotoCommandExecute);
+        }
+
+        private void attachPhotoCommandExecute(Door parameter)
+        {
+            var msg = new BrowseFileMessage();
+            msg.BrowseCompleted = (string filename) => {
+                parameter.Photo = filename;
+            };
+            Messenger.Default.Send<BrowseFileMessage>(msg);
         }
 
         private void deleteDoorCommandExecute()

@@ -43,11 +43,20 @@
                  HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Expander Header="{Binding Model}">
+                        <StackPanel>
+                            <Button Content="..."
+                                    Command="{Binding AttachPhotoCommand,Source={StaticResource viewmodel}}"
+                                    CommandParameter="{Binding}" />
+                            <Image Source="{Binding Photo}" />
+                        </StackPanel>
+                    </Expander>
+                    <!--<Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
                             <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBox Text="{Binding Model}" Grid.Column="0"
                                  ToolTip="{Binding Price,StringFormat=c}" />
@@ -55,7 +64,16 @@
                         <Slider Grid.Column="2" Margin="16,0,0,0"
                                 Minimum="0" Maximum="10000"
                                 Value="{Binding Price}" />
-                    </Grid>
+                        <StackPanel Orientation="Horizontal" Grid.Column="3">
+                            <Button Padding="8,2" Content="..."
+                                    Command="{Binding AttachPhotoCommand,Source={StaticResource viewmodel}}"
+                                    CommandParameter="{Binding}">
+                                <Button.ToolTip>
+                                    <Image Source="{Binding Photo}" Width="300" />
+                                </Button.ToolTip>
+                            </Button>
+                        </StackPanel>
+                    </Grid>-->
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using MGS.CorsoParte2.ViewModels.Messages;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -21,6 +22,23 @@ namespace MGS.CorsoParte2.WindowsApp
             Messenger.Default.Register<OpenNewViewMessage>(this, openNewView);
             Messenger.Default.Register<ShowMessageBox>(this, showMsg);
             Messenger.Default.Register<ShowQuestionBox>(this, showQuestion);
+            Messenger.Default.Register<BrowseFileMessage>(this, browseFile);
+        }
+
+        private void browseFile(BrowseFileMessage msg)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = msg.Title;
+            dlg.CheckFileExists = true;
+            dlg.CheckPathExists = true;
+            dlg.Multiselect = msg.MultiSelect;
+            dlg.Filter = msg.Filter;
+            bool? result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                msg.BrowseCompleted?.Invoke(dlg.FileName);
+            }
         }
 
         private void showQuestion(ShowQuestionBox msg)
